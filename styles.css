@@ -11,9 +11,13 @@ body{
     border: 2px solid black;
 }
 
-.output{
+.display{
     height: 25%;
     border: 2px solid black;
+    padding-right: 10%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
 }
 
 .keys{
@@ -25,7 +29,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 0 1 24%;
-    height: 5rem;
+    flex: 0 1 25%;
+    height: 5.2rem;
     border: 2px solid black;
 }
