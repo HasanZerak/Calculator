@@ -3,11 +3,10 @@ let buttonOperator = document.querySelectorAll('.operator');           //operato
 let buttonEquals = document.querySelector('.equals');           //equals button pressed
 let displayValue = '';           //number that appears on the screen when pressing buttons
 let display = document.querySelector('.display');
-let operatorCheck = 0;
 let firstInput = 0;
 let secondInput = 0;
-let operatorInput;
-let nextFirstInput
+let operatorInput = '';
+let displayOperator
 let output;
 
 function add(num1, num2) {           //addition function
@@ -28,53 +27,54 @@ function div(num1, num2) {           //division function
 
 function operate(operator, num1, num2) {         //function to take input numbers and operator, and provide output. 
     switch (operator) {
-        case '+':
-            return add(num1, num2);
-            break;
-        case '-':
-            return sub(num1, num2);
-            break;
-        case '*':
-            return prod(num1, num2);
-            break;
-        case '/':
-            return div(num1, num2);
-            break;
+        case '+':           //add
+            output = add(num1, num2);
+            display.textContent = output;
+            return output;
+        case '-':           //subtract
+            output = sub(num1, num2);
+            display.textContent = output;
+            return output;
+        case '*':           //multiply
+            output = prod(num1, num2);
+            display.textContent = output;
+            return +output;
+        case '/':           //divide
+            output = div(num1, num2);
+            display.textContent = output;
+            return output;
         default:
             alert("invalid operator");
     }
 }
 
-buttonEquals.addEventListener("click", function () {          //function to find and display the desired output using operate()
-    display.textContent = nextFirstInput;
-});
-
 buttonNumber.forEach(buttonOne => {         //event lisetener to catch and store each number pressed
     buttonOne.addEventListener("click", function () {
-        if (operatorCheck === 0) {
-            displayValue += this.textContent;           //add new number to the end of the previous list
+        if (operatorInput === '') {           //checking if this is the first input
+            displayValue += this.textContent;           //add new number to the end of the list
             display.textContent = displayValue;         //change display according to the numbers pressed 
-            firstInput = displayValue;
+            firstInput = displayValue;          //storing the value of first input
         }
         else {
-            displayValue += this.textContent;           //add new number to the end of the previous list
-            display.textContent = displayValue;         //change display according to the numbers pressed  
-            secondInput = displayValue;
-
-            nextFirstInput = operate(operatorInput, firstInput, secondInput);           //calculating the output of first two input and storing it for next operation 
-            firstInput = nextFirstInput;
-            display.textContent = firstInput;
+            displayValue += this.textContent;           //add new number to the end of the list
+            display.textContent = displayValue;         //change display according to the numbers pressed 
+            secondInput = displayValue;            //storing the value of second input
         }
     });
 });
 
-buttonOperator.forEach(buttonOne => {         //event lisetener to catch and store each operator pressed
+buttonOperator.forEach(buttonOne => {           //event lisetener to catch and store each operator pressed
     buttonOne.addEventListener("click", function () {
-        displayValue = this.textContent;           //print the operator
-        display.textContent = displayValue;         //change display according to the operator pressed 
-        operatorInput = displayValue;
-
-        displayValue = '';          //clearing the screen to display second input
-        operatorCheck = 1;          //buttonNumber will now enter the else statement and store the second input
+        if (firstInput != "" && secondInput != "") {         //if the first and second input have been entered once
+            firstInput = +operate(operatorInput, firstInput, secondInput);          //new value of first input after second operator has been pressed
+        }
+        displayValue = '';
+        displayOperator = this.textContent;
+        display.textContent = displayOperator;         //change display according to the operator pressed 
+        operatorInput = displayOperator;
     });
+});
+
+buttonEquals.addEventListener("click", function () {          //function to find and display the desired output using operate()
+    operate(operatorInput, firstInput, secondInput);
 });
