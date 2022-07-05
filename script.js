@@ -29,19 +29,19 @@ function operate(operator, num1, num2) {         //function to take input number
     switch (operator) {
         case '+':           //add
             output = add(num1, num2);
-            display.textContent = output;
+            display.textContent = +output.toFixed(15);
             return output;
         case '-':           //subtract
             output = sub(num1, num2);
-            display.textContent = output;
+            display.textContent = +output.toFixed(15);
             return output;
         case '*':           //multiply
             output = prod(num1, num2);
-            display.textContent = output;
+            display.textContent = +output.toFixed(15);
             return +output;
         case '/':           //divide
             output = div(num1, num2);
-            display.textContent = output;
+            display.textContent = +output.toFixed(15);
             return output;
         default:
             alert("invalid operator");
