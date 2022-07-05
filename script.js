@@ -1,6 +1,7 @@
 let buttonNumber = document.querySelectorAll('.number');           //number button pressed
 let buttonOperator = document.querySelectorAll('.operator');           //operator button pressed
 let buttonEquals = document.querySelector('.equals');           //equals button pressed
+let buttonClear = document.querySelector('.clear');         //clear button
 let displayValue = '';           //number that appears on the screen when pressing buttons
 let display = document.querySelector('.display');
 let firstInput = 0;
@@ -77,4 +78,12 @@ buttonOperator.forEach(buttonOne => {           //event lisetener to catch and s
 
 buttonEquals.addEventListener("click", function () {          //function to find and display the desired output using operate()
     operate(operatorInput, firstInput, secondInput);
+});
+
+buttonClear.addEventListener("click", function(){
+    displayValue = 0;
+    display.textContent = displayValue;
+    firstInput = '';
+    secondInput = '';
+    operatorInput = '';
 });
