@@ -4,6 +4,7 @@ let buttonEquals = document.querySelector('.equals');           //equals button 
 let buttonClear = document.querySelector('.clear');         //clear button
 let buttonDecimal = document.querySelector('.decimal');         //decimal button
 let totalDisplay = document.querySelector('.totalDisplay');
+let backspace = document.querySelector('.backspace');           //backspace button
 let displayValue = '';           //number that appears on the screen when pressing buttons
 let display = document.querySelector('.display');
 let firstInput = 0;
@@ -14,21 +15,24 @@ let decimalCheck = 0;
 let output;
 
 window.addEventListener("keydown", function (e) {           //adding keyboard input
-    console.log(e);         //if numbers pressed between 0-9
-    if (e.key >= 0 && e.key <= 9) {
+    if (e.key >= 0 && e.key <= 9) {         //if numbers pressed between 0-9
         input(e.key);
     }
     else if (e.key === "Escape") {          //pressing escape to clear
         clear();
     }
     else if (e.key === "Enter" || e.key === "=") {          //pressing Enter or = to give the fianl output
-        operate(operatorInput, firstInput, secondInput);
+        equals();
     }
     else if (e.key === ".") {           //can't include more than one decimal in a single input
         inputDecimal(e.key);
     }
     else if (e.key === "/" || e.key === "*" || e.key === "-" || e.key === "+") {            //pressing any operator
+        e.preventDefault();         //avoids opening quick find in mozilla, used to override default browser functions
         inputOperator(e.key);
+    }
+    else if(e.key === "Backspace"){
+        backscpace();
     }
 });
 
@@ -126,6 +130,26 @@ function clear() {          //function to clear the screen
     firstInput = '';
     secondInput = '';
     operatorInput = '';
+    totalDisplay.textContent = '';
+}
+
+function equals(){
+    operate(operatorInput, firstInput, secondInput);
+    totalDisplay.textContent = `${firstInput} ${operatorInput} ${secondInput} =`;           //displaying the entire calculations so far
+    secondInput = '';           //we no longer want these values to be used
+    operatorInput = '';         // ""
+}
+
+function backscpace(){
+    display.textContent = display.textContent.slice( 0 , -1);         //using slice to remove the last digit
+    displayValue = display.textContent;
+
+    if (operatorInput === '') {           //checking if this is the first input
+        firstInput = displayValue;          //storing the value of first input
+    }
+    else {
+        secondInput = displayValue;            //storing the value of second input
+    }
 }
 
 buttonNumber.forEach(buttonOne => {         //event lisetener to catch and store each number pressed
@@ -146,8 +170,11 @@ buttonOperator.forEach(buttonOne => {           //event lisetener to catch and s
 });
 
 buttonEquals.addEventListener("click", function () {          //function to find and display the desired output using operate()
-    operate(operatorInput, firstInput, secondInput);
-    totalDisplay.textContent = `${firstInput} ${operatorInput} ${secondInput} =`;           //displaying the entire calculations so far
+    equals();
 });
 
 buttonClear.addEventListener("click", clear);           //event listener for clear button
+
+backspace.addEventListener("click", function(){         //event listener to remove the last digit of the input || backscpace event listener
+    backscpace();
+});
