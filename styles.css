@@ -1,17 +1,17 @@
-body{
+body {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.container{
+.container {
     width: 25rem;
     height: 35rem;
     border: 2px solid black;
 }
 
-.display{
+.display {
     height: 25%;
     border: 2px solid black;
     padding-right: 10%;
@@ -20,12 +20,12 @@ body{
     align-items: center;
 }
 
-.keys{
+.keys {
     display: flex;
     flex-wrap: wrap;
 }
 
-.key{
+.key {
     display: flex;
     align-items: center;
     justify-content: center;

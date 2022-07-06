@@ -31,7 +31,7 @@ window.addEventListener("keydown", function (e) {           //adding keyboard in
         e.preventDefault();         //avoids opening quick find in mozilla, used to override default browser functions
         inputOperator(e.key);
     }
-    else if(e.key === "Backspace"){
+    else if (e.key === "Backspace") {
         backscpace();
     }
 });
@@ -133,15 +133,16 @@ function clear() {          //function to clear the screen
     totalDisplay.textContent = '';
 }
 
-function equals(){
-    operate(operatorInput, firstInput, secondInput);
+function equals() {
+    displayValue = operate(operatorInput, firstInput, secondInput);
     totalDisplay.textContent = `${firstInput} ${operatorInput} ${secondInput} =`;           //displaying the entire calculations so far
+    firstInput = displayValue;
     secondInput = '';           //we no longer want these values to be used
     operatorInput = '';         // ""
 }
 
-function backscpace(){
-    display.textContent = display.textContent.slice( 0 , -1);         //using slice to remove the last digit
+function backscpace() {
+    display.textContent = display.textContent.slice(0, -1);         //using slice to remove the last digit
     displayValue = display.textContent;
 
     if (operatorInput === '') {           //checking if this is the first input
@@ -175,6 +176,6 @@ buttonEquals.addEventListener("click", function () {          //function to find
 
 buttonClear.addEventListener("click", clear);           //event listener for clear button
 
-backspace.addEventListener("click", function(){         //event listener to remove the last digit of the input || backscpace event listener
+backspace.addEventListener("click", function () {         //event listener to remove the last digit of the input || backscpace event listener
     backscpace();
 });
