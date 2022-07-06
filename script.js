@@ -3,6 +3,7 @@ let buttonOperator = document.querySelectorAll('.operator');           //operato
 let buttonEquals = document.querySelector('.equals');           //equals button pressed
 let buttonClear = document.querySelector('.clear');         //clear button
 let buttonDecimal = document.querySelector('.decimal');         //decimal button
+let totalDisplay = document.querySelector('.totalDisplay');
 let displayValue = '';           //number that appears on the screen when pressing buttons
 let display = document.querySelector('.display');
 let firstInput = 0;
@@ -11,6 +12,25 @@ let operatorInput = '';
 let displayOperator;
 let decimalCheck = 0;
 let output;
+
+window.addEventListener("keydown", function (e) {           //adding keyboard input
+    console.log(e);         //if numbers pressed between 0-9
+    if (e.key >= 0 && e.key <= 9) {
+        input(e.key);
+    }
+    else if (e.key === "Escape") {          //pressing escape to clear
+        clear();
+    }
+    else if (e.key === "Enter" || e.key === "=") {          //pressing Enter or = to give the fianl output
+        operate(operatorInput, firstInput, secondInput);
+    }
+    else if (e.key === ".") {           //can't include more than one decimal in a single input
+        inputDecimal(e.key);
+    }
+    else if (e.key === "/" || e.key === "*" || e.key === "-" || e.key === "+") {            //pressing any operator
+        inputOperator(e.key);
+    }
+});
 
 function add(num1, num2) {           //addition function
     return +num1 + +num2;
@@ -57,59 +77,77 @@ function operate(operator, num1, num2) {         //function to take input number
     }
 }
 
-buttonNumber.forEach(buttonOne => {         //event lisetener to catch and store each number pressed
-    buttonOne.addEventListener("click", function () {
-        if (operatorInput === '') {           //checking if this is the first input
-            displayValue += this.textContent;           //add new number to the end of the list
-            display.textContent = displayValue;         //change display according to the numbers pressed 
-            firstInput = displayValue;          //storing the value of first input
-        }
-        else {
-            displayValue += this.textContent;           //add new number to the end of the list
-            display.textContent = displayValue;         //change display according to the numbers pressed 
-            secondInput = displayValue;            //storing the value of second input
-        }
-    });
-});
+function input(ele) {
+    if (operatorInput === '') {           //checking if this is the first input
+        displayValue += ele;           //add new number to the end of the list
+        display.textContent = displayValue;         //change display according to the numbers pressed 
+        firstInput = displayValue;          //storing the value of first input
+    }
+    else {
+        displayValue += ele;           //add new number to the end of the list
+        display.textContent = displayValue;         //change display according to the numbers pressed 
+        secondInput = displayValue;            //storing the value of second input
+    }
+}
 
-buttonDecimal.addEventListener("click", function () {
+function inputDecimal(ele) {
     if (decimalCheck === 0) {
         if (operatorInput === '') {           //checking if this is the first input
-            displayValue += this.textContent;           //add new number to the end of the list
+            displayValue += ele;           //add new number to the end of the list
             display.textContent = displayValue;         //change display according to the numbers pressed 
             firstInput = displayValue;          //storing the value of first input
             decimalCheck = 1;
         }
         else {
-            displayValue += this.textContent;           //add new number to the end of the list
+            displayValue += ele;           //add new number to the end of the list
             display.textContent = displayValue;         //change display according to the numbers pressed 
             secondInput = displayValue;            //storing the value of second input
             decimalCheck = 1;
         }
     }
-});
+}
 
-buttonOperator.forEach(buttonOne => {           //event lisetener to catch and store each operator pressed
-    buttonOne.addEventListener("click", function () {
-        decimalCheck = 0;
-        if (firstInput != "" && secondInput != "") {         //if the first and second input have been entered once
-            firstInput = +operate(operatorInput, firstInput, secondInput);          //new value of first input after second operator has been pressed
-        }
-        displayValue = '';
-        displayOperator = this.textContent;
-        display.textContent = displayOperator;         //change display according to the operator pressed 
-        operatorInput = displayOperator;
-    });
-});
+function inputOperator(ele) {
+    decimalCheck = 0;
+    totalDisplay.textContent = `${firstInput} ${ele} `;             //secondary dispaly to display the entire calculation
+    if (firstInput != "" && secondInput != "") {         //if the first and second input have been entered once
+        firstInput = +operate(operatorInput, firstInput, secondInput);          //new value of first input after second operator has been pressed
+        totalDisplay.textContent = `${firstInput} ${ele} `;
+    }
+    displayValue = '';
+    displayOperator = ele;
+    display.textContent = displayOperator;         //change display according to the operator pressed 
+    operatorInput = displayOperator;
+}
 
-buttonEquals.addEventListener("click", function () {          //function to find and display the desired output using operate()
-    operate(operatorInput, firstInput, secondInput);
-});
-
-buttonClear.addEventListener("click", function () {
+function clear() {          //function to clear the screen
     displayValue = '';
     display.textContent = displayValue;
     firstInput = '';
     secondInput = '';
     operatorInput = '';
+}
+
+buttonNumber.forEach(buttonOne => {         //event lisetener to catch and store each number pressed
+    buttonOne.addEventListener("click", function () {
+        input(this.textContent);
+    })
 });
+
+
+buttonDecimal.addEventListener("click", function () {           //can't include more than one decimal in a single input
+    inputDecimal(this.textContent);
+});
+
+buttonOperator.forEach(buttonOne => {           //event lisetener to catch and store each operator pressed
+    buttonOne.addEventListener("click", function () {
+        inputOperator(this.textContent);
+    })
+});
+
+buttonEquals.addEventListener("click", function () {          //function to find and display the desired output using operate()
+    operate(operatorInput, firstInput, secondInput);
+    totalDisplay.textContent = `${firstInput} ${operatorInput} ${secondInput} =`;           //displaying the entire calculations so far
+});
+
+buttonClear.addEventListener("click", clear);           //event listener for clear button
