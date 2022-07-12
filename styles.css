@@ -2,11 +2,11 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    color: #F1EEE9;
+    color: #DCD7C9;
     font-family: 'Space Mono', monospace;
     font-size: 15px;
     font-weight: 700;
-    background-color: #251D3A;
+    background-color: #DCD7C9;
 }
 
 .container {
@@ -19,17 +19,20 @@ body {
 
 .screen {
     width: 26rem;
-    border: 2px solid #F1EEE9;
-    padding: 0 10px;
+    border: 2px solid #DCD7C9;
+    padding: 0 6px;
+    background-color: #251D3A;
     border-radius: 25px 25px 10px 10px;
 }
 
 .display {
+    margin: 0 1rem;
     font-size: 40px;
     margin-bottom: 10%;
 }
 
 .totalDisplay {
+    margin: 0 0.75rem;
     font-size: 20px;
 }
 
@@ -40,12 +43,23 @@ body {
 
 .key {
     flex: 0 1 25%;
+    box-shadow: 7px 10px #2C3639;
     height: 5.2rem;
-    border: 2px solid #F1EEE9;
+    border: 2px solid #DCD7C9;
     border-radius: 10px 10px 25px 25px;
-    color: #F1EEE9;
+    color: #DCD7C9;
     background-color: #251D3A;
     font-family: 'Space Mono', monospace;
     font-size: 15px;
     font-weight: 700;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+
+.key:hover {
+    box-shadow: 2px 5px #3F4E4F;
+}
+
+.key:active {
+    box-shadow: 0px 0px #3F4E4F;
 }
