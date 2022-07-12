@@ -161,7 +161,7 @@ function backscpace() {
 }
 
 function sound() {
-    let audio = new Audio('sounds/mixkit-on-or-off-light-switch-tap-2585.wav');
+    let audio = new Audio('./sounds/mixkit-on-or-off-light-switch-tap-2585.wav');
     audio.play();
 }
 
