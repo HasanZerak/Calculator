@@ -5,7 +5,6 @@ let buttonClear = document.querySelector('.clear');         //clear button
 let buttonDecimal = document.querySelector('.decimal');         //decimal button
 let totalDisplay = document.querySelector('.totalDisplay');
 let backspace = document.querySelector('.backspace');           //backspace button
-let key = document.querySelector('.key');           //a selector for each butto to add keyboard animations
 let displayValue = '';           //number that appears on the screen when pressing buttons
 let display = document.querySelector('.display');
 let firstInput = 0;
@@ -16,24 +15,31 @@ let decimalCheck = 0;
 let output;
 
 window.addEventListener("keydown", function (e) {           //adding keyboard input
+
     if (e.key >= 0 && e.key <= 9) {         //if numbers pressed between 0-9
+        sound();
         input(e.key);
     }
     else if (e.key === "Escape") {          //pressing escape to clear
         clear();
+        sound();
     }
     else if (e.key === "Enter" || e.key === "=") {          //pressing Enter or = to give the fianl output
         equals();
+        sound();
     }
     else if (e.key === ".") {           //can't include more than one decimal in a single input
         inputDecimal(e.key);
+        sound();
     }
     else if (e.key === "/" || e.key === "*" || e.key === "-" || e.key === "+") {            //pressing any operator
         e.preventDefault();         //avoids opening quick find in mozilla, used to override default browser functions
         inputOperator(e.key);
+        sound();
     }
     else if (e.key === "Backspace") {
         backscpace();
+        sound();
     }
 });
 
@@ -154,25 +160,42 @@ function backscpace() {
     }
 }
 
+function sound() {
+    let audio = new Audio('/home/hasan/repos/Calculator/sounds/mixkit-on-or-off-light-switch-tap-2585.wav');
+    audio.play();
+}
+
 buttonNumber.forEach(buttonOne => {         //event lisetener to catch and store each number pressed
     buttonOne.addEventListener("click", function () {
+        sound();
         input(this.textContent);
     })
 });
 
 
 buttonDecimal.addEventListener("click", function () {           //can't include more than one decimal in a single input
+    sound();
     inputDecimal(this.textContent);
 });
 
 buttonOperator.forEach(buttonOne => {           //event lisetener to catch and store each operator pressed
     buttonOne.addEventListener("click", function () {
+        sound();
         inputOperator(this.textContent);
     })
 });
 
-buttonEquals.addEventListener("click", equals);          //function to find and display the desired output using operate()
+buttonEquals.addEventListener("click", function () {          //function to find and display the desired output using operate()
+    sound();
+    equals();
+});
 
-buttonClear.addEventListener("click", clear);           //event listener for clear button
+buttonClear.addEventListener("click", function () {           //event listener for clear button
+    sound();
+    clear();
+});
 
-backspace.addEventListener("click", backscpace);         //event listener to remove the last digit of the input || backscpace event listener
+backspace.addEventListener("click", function () {         //event listener to remove the last digit of the input || backscpace event listener
+    sound();
+    backscpace();
+});         
