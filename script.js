@@ -5,6 +5,7 @@ let buttonClear = document.querySelector('.clear');         //clear button
 let buttonDecimal = document.querySelector('.decimal');         //decimal button
 let totalDisplay = document.querySelector('.totalDisplay');
 let backspace = document.querySelector('.backspace');           //backspace button
+let key = document.querySelector('.key');           //a selector for each butto to add keyboard animations
 let displayValue = '';           //number that appears on the screen when pressing buttons
 let display = document.querySelector('.display');
 let firstInput = 0;
@@ -170,12 +171,8 @@ buttonOperator.forEach(buttonOne => {           //event lisetener to catch and s
     })
 });
 
-buttonEquals.addEventListener("click", function () {          //function to find and display the desired output using operate()
-    equals();
-});
+buttonEquals.addEventListener("click", equals);          //function to find and display the desired output using operate()
 
 buttonClear.addEventListener("click", clear);           //event listener for clear button
 
-backspace.addEventListener("click", function () {         //event listener to remove the last digit of the input || backscpace event listener
-    backscpace();
-});
+backspace.addEventListener("click", backscpace);         //event listener to remove the last digit of the input || backscpace event listener
